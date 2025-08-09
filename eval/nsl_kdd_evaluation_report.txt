@@ -1,7 +1,7 @@
 ================================================================================
 MODEL EVALUATION REPORT - NSL_KDD
 ================================================================================
-Generated: 2025-08-09 09:07:06
+Generated: 2025-08-09 09:40:57
 
 PERFORMANCE SUMMARY
 --------------------------------------------------
@@ -29,8 +29,8 @@ False Negatives: 8636
 True Positives: 4197
 
 Performance:
-Prediction Time: 0.2163 seconds
-Predictions per Second: 104213.06
+Prediction Time: 0.1992 seconds
+Predictions per Second: 113158.64
 
 ==================================================
 
@@ -50,8 +50,8 @@ False Negatives: 4902
 True Positives: 7931
 
 Performance:
-Prediction Time: 0.1039 seconds
-Predictions per Second: 217052.50
+Prediction Time: 0.1026 seconds
+Predictions per Second: 219637.52
 
 ==================================================
 
@@ -71,8 +71,8 @@ False Negatives: 4437
 True Positives: 8396
 
 Performance:
-Prediction Time: 0.0846 seconds
-Predictions per Second: 266496.60
+Prediction Time: 0.0227 seconds
+Predictions per Second: 993310.10
 
 ==================================================
 
@@ -92,8 +92,8 @@ False Negatives: 5606
 True Positives: 7227
 
 Performance:
-Prediction Time: 0.0363 seconds
-Predictions per Second: 621681.72
+Prediction Time: 0.0315 seconds
+Predictions per Second: 715496.86
 
 ==================================================
 
@@ -113,7 +113,7 @@ False Negatives: 10595
 True Positives: 2238
 
 Performance:
-Prediction Time: 0.0553 seconds
-Predictions per Second: 407650.96
+Prediction Time: 0.0528 seconds
+Predictions per Second: 426720.02
 
 ==================================================
