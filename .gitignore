@@ -1,0 +1,15 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+data/
+DOCUMENTATION.md
+*.ipynb
+*.html
+*.json
+*.csv
+*.jsonl
+*.jsonl.gz

@@ -1,0 +1,119 @@
+================================================================================
+MODEL EVALUATION REPORT - UNSW_NB15
+================================================================================
+Generated on: 2025-08-07 03:46:02
+
+PERFORMANCE SUMMARY
+--------------------------------------------------
+Model                Accuracy   F1-Score   ROC-AUC   
+--------------------------------------------------
+Isolation Forest     0.4613     0.1967     0.4521    
+Random Forest        0.9691     0.9711     0.9999    
+Xgboost              1.0000     1.0000     1.0000    
+Kmeans               0.7282     0.7285     0.3061    
+Autoencoder          0.5494     0.3074     0.9950    
+
+ISOLATION FOREST DETAILED RESULTS
+--------------------------------------------------
+Accuracy: 0.4613
+Precision: 0.5498
+Recall: 0.1198
+F1-Score: 0.1967
+ROC-AUC: 0.4521
+Average Precision: 0.5330
+
+Confusion Matrix:
+True Negatives: 32554
+False Positives: 4446
+False Negatives: 39903
+True Positives: 5429
+
+Performance:
+Prediction Time: 0.5763 seconds
+Predictions per Second: 142863.59
+
+==================================================
+
+RANDOM FOREST DETAILED RESULTS
+--------------------------------------------------
+Accuracy: 0.9691
+Precision: 1.0000
+Recall: 0.9439
+F1-Score: 0.9711
+ROC-AUC: 0.9999
+Average Precision: 0.9999
+
+Confusion Matrix:
+True Negatives: 36998
+False Positives: 2
+False Negatives: 2542
+True Positives: 42790
+
+Performance:
+Prediction Time: 0.1623 seconds
+Predictions per Second: 507171.46
+
+==================================================
+
+XGBOOST DETAILED RESULTS
+--------------------------------------------------
+Accuracy: 1.0000
+Precision: 1.0000
+Recall: 1.0000
+F1-Score: 1.0000
+ROC-AUC: 1.0000
+Average Precision: 1.0000
+
+Confusion Matrix:
+True Negatives: 37000
+False Positives: 0
+False Negatives: 0
+True Positives: 45332
+
+Performance:
+Prediction Time: 0.0275 seconds
+Predictions per Second: 2993017.99
+
+==================================================
+
+KMEANS DETAILED RESULTS
+--------------------------------------------------
+Accuracy: 0.7282
+Precision: 0.8095
+Recall: 0.6622
+F1-Score: 0.7285
+ROC-AUC: 0.3061
+Average Precision: 0.4478
+
+Confusion Matrix:
+True Negatives: 29934
+False Positives: 7066
+False Negatives: 15312
+True Positives: 30020
+
+Performance:
+Prediction Time: 0.0286 seconds
+Predictions per Second: 2873999.72
+
+==================================================
+
+AUTOENCODER DETAILED RESULTS
+--------------------------------------------------
+Accuracy: 0.5494
+Precision: 1.0000
+Recall: 0.1816
+F1-Score: 0.3074
+ROC-AUC: 0.9950
+Average Precision: 0.9953
+
+Confusion Matrix:
+True Negatives: 37000
+False Positives: 0
+False Negatives: 37098
+True Positives: 8234
+
+Performance:
+Prediction Time: 0.0683 seconds
+Predictions per Second: 1206132.69
+
+==================================================

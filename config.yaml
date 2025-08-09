@@ -1,0 +1,89 @@
+# Configuration file for Network Traffic Anomaly Detection System
+
+# Data paths and settings
+data:
+  raw_data_path: "data/NSL_KDD/KDDTrain+.csv"
+  test_data_path: "data/NSL_KDD/KDDTest+.csv"
+  processed_data_path: "data/processed/"
+  training_data: "data/processed/train_processed.csv"
+  test_data: "data/processed/test_processed.csv"
+
+# Model settings
+models:
+  save_path: "models/"
+  isolation_forest:
+    contamination: 0.1
+    n_estimators: 100
+    random_state: 42
+    max_samples: 'auto'
+    max_features: 1.0
+  random_forest:
+    n_estimators: 200
+    max_depth: 20
+    random_state: 42
+    class_weight: 'balanced'
+    n_jobs: -1
+
+# Real-time streaming settings
+streaming:
+  batch_size: 1
+  delay_seconds: 1.0
+  loop_dataset: true
+  anomaly_threshold: 0.5
+
+# Email alert settings
+email:
+  smtp_server: "smtp.gmail.com"
+  smtp_port: 587
+  sender_email: "study.abdullahkhan@gmail.com"
+  sender_password: "jazfoulcjtglccme"
+  recipient_email: "study.abdullahkhan@gmail.com"
+  subject_template: "ALERT: Network Anomaly Detected"
+  body_template: |
+    Network anomaly detected at {timestamp}
+    
+    Anomaly Details:
+    - Prediction Score: {score}
+    - Model: {model_name}
+    - Features: {features}
+    
+    Please investigate immediately.
+    
+    Best regards,
+    Anomaly Detection System
+
+# Logging settings
+logging:
+  log_file: "logs/anomaly_detection.log"
+  log_level: "INFO"
+  max_log_size_mb: 100
+  backup_count: 5
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Evaluation settings
+evaluation:
+  output_path: "eval/"
+  metrics:
+    - "confusion_matrix"
+    - "roc_auc"
+    - "precision_recall"
+    - "f1_score"
+  visualizations:
+    - "roc_curve"
+    - "precision_recall_curve"
+    - "tsne_plot"
+    - "confusion_matrix_heatmap"
+
+# Feature engineering settings
+preprocessing:
+  normalize: true
+  scale_method: "standard"  # options: standard, minmax, robust
+  handle_missing: "median"  # options: median, mean, drop
+  categorical_encoding: "label"  # options: label, onehot
+  remove_duplicates: true
+  
+# System settings
+system:
+  n_jobs: -1
+  random_state: 42
+  verbose: true 
