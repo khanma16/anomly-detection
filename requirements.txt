@@ -1,6 +1,3 @@
-# Complete Requirements for Network Anomaly Detection System
-# Consolidated from requirements.txt, requirements-dev.txt, and requirements-live.txt
-
 # Web interface
 flask>=2.3.0
 gunicorn>=21.2.0

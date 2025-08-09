@@ -1,7 +1,7 @@
 ================================================================================
 MODEL EVALUATION REPORT - UNSW_NB15
 ================================================================================
-Generated on: 2025-08-07 03:46:02
+Generated: 2025-08-09 09:07:20
 
 PERFORMANCE SUMMARY
 --------------------------------------------------
@@ -29,8 +29,8 @@ False Negatives: 39903
 True Positives: 5429
 
 Performance:
-Prediction Time: 0.5763 seconds
-Predictions per Second: 142863.59
+Prediction Time: 0.5984 seconds
+Predictions per Second: 137590.87
 
 ==================================================
 
@@ -50,8 +50,8 @@ False Negatives: 2542
 True Positives: 42790
 
 Performance:
-Prediction Time: 0.1623 seconds
-Predictions per Second: 507171.46
+Prediction Time: 0.2031 seconds
+Predictions per Second: 405379.11
 
 ==================================================
 
@@ -71,8 +71,8 @@ False Negatives: 0
 True Positives: 45332
 
 Performance:
-Prediction Time: 0.0275 seconds
-Predictions per Second: 2993017.99
+Prediction Time: 0.0293 seconds
+Predictions per Second: 2805425.51
 
 ==================================================
 
@@ -92,8 +92,8 @@ False Negatives: 15312
 True Positives: 30020
 
 Performance:
-Prediction Time: 0.0286 seconds
-Predictions per Second: 2873999.72
+Prediction Time: 0.0348 seconds
+Predictions per Second: 2366296.21
 
 ==================================================
 
@@ -113,7 +113,7 @@ False Negatives: 37098
 True Positives: 8234
 
 Performance:
-Prediction Time: 0.0683 seconds
-Predictions per Second: 1206132.69
+Prediction Time: 0.0846 seconds
+Predictions per Second: 973471.64
 
 ==================================================

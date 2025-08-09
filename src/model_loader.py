@@ -1,176 +1,207 @@
 """
-Unified Model Loader for Anomaly Detection
-==========================================
-Handles loading models trained by the new unified training script
+Model Loader for Network Anomaly Detection System
+================================================
 
-Usage:
-    from src.model_loader import ModelLoader
-    
-    loader = ModelLoader()
-    models, scalers = loader.load_models('nsl_kdd')  # Load specific dataset models
-    models, scalers = loader.load_best_models()      # Load best performing models
+Handles loading trained machine learning models and their associated scalers
+for anomaly detection inference. Supports dataset-specific model loading
+and automatic fallback to best available models.
+
+Features:
+- Load models by dataset (NSL-KDD, CICIDS2017, UNSW-NB15, TON-IoT)
+- Automatic model discovery and validation
+- Scaler loading for feature preprocessing
+- Model metadata and threshold loading
+
 """
 
 import os
 import joblib
 import yaml
 import logging
-from typing import Dict, Any, Tuple, Optional
+from typing import Dict, Any, Tuple
 
 logger = logging.getLogger(__name__)
 
 class ModelLoader:
-    """Unified model loader for different training approaches"""
+    """Loads trained models and scalers for anomaly detection inference"""
     
     def __init__(self, config_path: str = 'config.yaml'):
-        """Initialize model loader"""
+        """Initialize model loader with configuration file"""
         with open(config_path, 'r') as f:
             self.config = yaml.safe_load(f)
         
         self.models_dir = self.config['models']['save_path']
         
+        logger.info("Model loader initialized")
+    
     def list_available_models(self) -> Dict[str, list]:
-        """List all available trained models"""
+        """Discover and list all available trained models in the models directory"""
         available = {
             'datasets': [],
             'model_files': []
         }
         
         if not os.path.exists(self.models_dir):
+            logger.warning(f"Models directory not found: {self.models_dir}")
             return available
         
         files = os.listdir(self.models_dir)
         
-        # Check for dataset-specific models (new format)
+        # Check for dataset-specific models (primary format)
         datasets = ['nsl_kdd', 'cicids2017', 'unsw_nb15', 'ton_iot']
         for dataset in datasets:
-            if (f'{dataset}_isolation_forest.pkl' in files or 
-                f'{dataset}_random_forest.pkl' in files or
-                f'{dataset}_xgboost.pkl' in files or
-                f'{dataset}_kmeans.pkl' in files or
-                f'{dataset}_autoencoder.pkl' in files):
+            # Check if any model type exists for this dataset
+            dataset_models = [
+                f'{dataset}_isolation_forest.pkl',
+                f'{dataset}_random_forest.pkl',
+                f'{dataset}_xgboost.pkl',
+                f'{dataset}_kmeans.pkl',
+                f'{dataset}_autoencoder.pkl'
+            ]
+            
+            if any(model_file in files for model_file in dataset_models):
                 available['datasets'].append(dataset)
         
-        # Check for generic models (old format)
-        if 'isolation_forest.pkl' in files or 'random_forest.pkl' in files:
-            available['model_files'] = ['isolation_forest.pkl', 'random_forest.pkl']
+        # Check for generic models (fallback format)
+        generic_models = ['isolation_forest.pkl', 'random_forest.pkl', 'xgboost.pkl']
+        available['model_files'] = [model for model in generic_models if model in files]
         
         return available
     
     def load_models(self, dataset: str = None) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
-        Load models for a specific dataset or best available models
+        Load models and scalers for inference
         
         Args:
-            dataset (str): Dataset name (nsl_kdd, cicids2017, unsw_nb15, ton_iot)
-                          If None, loads best available models
+            dataset: Specific dataset name (nsl_kdd, cicids2017, unsw_nb15, ton_iot)
+                    If None, loads best available models automatically
         
         Returns:
-            Tuple[Dict[str, Any], Dict[str, Any]]: (models, scalers)
+            Tuple containing (models_dict, scalers_dict)
+        
+        Raises:
+            FileNotFoundError: If no trained models are found
         """
         models = {}
         scalers = {}
         
         if dataset:
-            # Load dataset-specific models
+            # Load models for specific dataset
             models, scalers = self._load_dataset_models(dataset)
         else:
-            # Load best available models
+            # Load best available models with automatic fallback
             models, scalers = self._load_best_models()
         
         if not models:
-            raise FileNotFoundError("No trained models found. Please run training first.")
+            raise FileNotFoundError(
+                "No trained models found. Please run training first: python src/train.py --dataset all"
+            )
         
-        logger.info(f"Loaded {len(models)} models and {len(scalers)} scalers")
+        logger.info(f"Successfully loaded {len(models)} models and {len(scalers)} scalers")
         return models, scalers
     
     def _load_dataset_models(self, dataset: str) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-        """Load models for a specific dataset"""
+        """Load all available models for a specific dataset"""
         models = {}
         scalers = {}
         
-        # Load Isolation Forest
-        iso_path = os.path.join(self.models_dir, f'{dataset}_isolation_forest.pkl')
-        if os.path.exists(iso_path):
-            models['isolation_forest'] = joblib.load(iso_path)
-            logger.info(f"Loaded {dataset} Isolation Forest model")
+        # Model loading configuration
+        model_configs = [
+            ('isolation_forest', f'{dataset}_isolation_forest.pkl'),
+            ('random_forest', f'{dataset}_random_forest.pkl'),
+            ('xgboost', f'{dataset}_xgboost.pkl'),
+            ('kmeans', f'{dataset}_kmeans.pkl'),
+            ('autoencoder', f'{dataset}_autoencoder.pkl')
+        ]
         
-        # Load Random Forest  
-        rf_path = os.path.join(self.models_dir, f'{dataset}_random_forest.pkl')
-        if os.path.exists(rf_path):
-            models['random_forest'] = joblib.load(rf_path)
-            logger.info(f"Loaded {dataset} Random Forest model")
+        # Load each model type if available
+        for model_name, filename in model_configs:
+            model_path = os.path.join(self.models_dir, filename)
+            if os.path.exists(model_path):
+                try:
+                    models[model_name] = joblib.load(model_path)
+                    logger.info(f"Loaded {dataset} {model_name} model")
+                except Exception as e:
+                    logger.error(f"Failed to load {model_name} model: {e}")
         
-        # Load XGBoost
-        xgb_path = os.path.join(self.models_dir, f'{dataset}_xgboost.pkl')
-        if os.path.exists(xgb_path):
-            models['xgboost'] = joblib.load(xgb_path)
-            logger.info(f"Loaded {dataset} XGBoost model")
-        
-        # Load K-Means
-        kmeans_path = os.path.join(self.models_dir, f'{dataset}_kmeans.pkl')
-        if os.path.exists(kmeans_path):
-            models['kmeans'] = joblib.load(kmeans_path)
-            logger.info(f"Loaded {dataset} K-Means model")
-        
-        # Load Autoencoder
-        autoencoder_path = os.path.join(self.models_dir, f'{dataset}_autoencoder.pkl')
-        if os.path.exists(autoencoder_path):
-            models['autoencoder'] = joblib.load(autoencoder_path)
-            logger.info(f"Loaded {dataset} Autoencoder model")
-            
-            # Load autoencoder threshold as metadata, not a separate model
+        # Load autoencoder threshold if autoencoder was loaded
+        if 'autoencoder' in models:
             threshold_path = os.path.join(self.models_dir, f'{dataset}_autoencoder_threshold.pkl')
             if os.path.exists(threshold_path):
-                threshold = joblib.load(threshold_path)
-                # Store threshold as metadata with the autoencoder
-                models['autoencoder_threshold'] = threshold
-                logger.info(f"Loaded {dataset} Autoencoder threshold: {threshold:.4f}")
+                try:
+                    threshold = joblib.load(threshold_path)
+                    models['autoencoder_threshold'] = threshold
+                    logger.info(f"Loaded {dataset} autoencoder threshold: {threshold:.4f}")
+                except Exception as e:
+                    logger.error(f"Failed to load autoencoder threshold: {e}")
         
-        # Load scaler
+        # Load feature scaler
         scaler_path = os.path.join(self.models_dir, f'{dataset}_scaler.pkl')
         if os.path.exists(scaler_path):
-            scalers[dataset] = joblib.load(scaler_path)
-            logger.info(f"Loaded {dataset} scaler")
+            try:
+                scalers[dataset] = joblib.load(scaler_path)
+                logger.info(f"Loaded {dataset} feature scaler")
+            except Exception as e:
+                logger.error(f"Failed to load scaler: {e}")
         
         return models, scalers
     
     def _load_best_models(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-        """Load best available models (fallback to generic models)"""
+        """Load best available models with priority-based selection"""
         models = {}
         scalers = {}
         
         available = self.list_available_models()
         
-        # Try to load from best performing dataset (NSL-KDD first, then others)
+        # Priority order for dataset selection (based on typical performance)
         priority_datasets = ['nsl_kdd', 'unsw_nb15', 'cicids2017', 'ton_iot']
         
+        # Try to load from highest priority dataset with available models
         for dataset in priority_datasets:
             if dataset in available['datasets']:
+                logger.info(f"Loading best available models from {dataset} dataset")
                 return self._load_dataset_models(dataset)
         
-        # Fallback to generic models (old format)
-        iso_path = os.path.join(self.models_dir, 'isolation_forest.pkl')
-        if os.path.exists(iso_path):
-            models['isolation_forest'] = joblib.load(iso_path)
-            logger.info("Loaded generic Isolation Forest model")
-        
-        rf_path = os.path.join(self.models_dir, 'random_forest.pkl')
-        if os.path.exists(rf_path):
-            models['random_forest'] = joblib.load(rf_path)
-            logger.info("Loaded generic Random Forest model")
+        # Fallback to generic models if no dataset-specific models found
+        if available['model_files']:
+            logger.info("Loading generic fallback models")
+            
+            generic_models = {
+                'isolation_forest': 'isolation_forest.pkl',
+                'random_forest': 'random_forest.pkl',
+                'xgboost': 'xgboost.pkl'
+            }
+            
+            for model_name, filename in generic_models.items():
+                model_path = os.path.join(self.models_dir, filename)
+                if os.path.exists(model_path):
+                    try:
+                        models[model_name] = joblib.load(model_path)
+                        logger.info(f"Loaded generic {model_name} model")
+                    except Exception as e:
+                        logger.error(f"Failed to load generic {model_name}: {e}")
         
         return models, scalers
     
     def get_model_info(self) -> Dict[str, Any]:
-        """Get information about available models"""
+        """Get comprehensive information about available models and system status"""
         available = self.list_available_models()
+        
+        # Count total model files
+        total_files = 0
+        if os.path.exists(self.models_dir):
+            try:
+                total_files = len([f for f in os.listdir(self.models_dir) 
+                                 if f.endswith('.pkl')])
+            except OSError:
+                total_files = 0
         
         info = {
             'available_datasets': available['datasets'],
             'generic_models': available['model_files'],
             'models_directory': self.models_dir,
-            'total_model_files': len(os.listdir(self.models_dir)) if os.path.exists(self.models_dir) else 0
+            'total_model_files': total_files,
+            'directory_exists': os.path.exists(self.models_dir)
         }
         
         return info 

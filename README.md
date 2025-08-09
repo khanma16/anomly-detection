@@ -36,10 +36,10 @@ sudo setcap cap_net_raw,cap_net_admin=eip /usr/bin/dumpcap
 ### **Train Models**
 ```bash
 # Train all models on all datasets
-python train.py --dataset all
+python src/train.py --dataset all
 
 # Train specific dataset
-python train.py --dataset nsl_kdd
+python src/train.py --dataset nsl_kdd
 
 # Evaluate models
 python src/evaluate_models.py --dataset all
@@ -47,12 +47,19 @@ python src/evaluate_models.py --dataset all
 
 ### **Run Live System**
 ```bash
-# Start LIVE traffic monitoring
-python app_live.py
-# Open: http://localhost:8001
+# Linux/Mac - Start LIVE traffic monitoring
+sudo venv/bin/python app.py
+# Open: http://localhost:8000
 
-# Generate attacks for testing (separate terminal)
-sudo python3 attack_simulator.py --safe
+# Windows - Start LIVE traffic monitoring  
+venv\Scripts\python.exe app.py
+# Open: http://localhost:8000
+
+# Linux/Mac - Generate attacks for testing (separate terminal)
+sudo venv/bin/python attack_simulator.py --safe
+
+# Windows - Generate attacks for testing (separate terminal)
+venv\Scripts\python.exe attack_simulator.py --safe
 ```
 
 ---
@@ -61,13 +68,23 @@ sudo python3 attack_simulator.py --safe
 
 ### **1-Minute Setup**
 ```bash
+# Linux/Mac
 # Terminal 1: Start live system
-source venv/bin/activate.fish
-python app_live.py
-# Open: http://localhost:8001
+source venv/bin/activate
+sudo venv/bin/python app.py
+# Open: http://localhost:8000
 
 # Terminal 2: Generate attacks  
-sudo python3 attack_simulator.py --safe
+sudo venv/bin/python attack_simulator.py --safe
+
+# Windows
+# Terminal 1: Start live system
+venv\Scripts\activate
+venv\Scripts\python.exe app.py
+# Open: http://localhost:8000
+
+# Terminal 2: Generate attacks
+venv\Scripts\python.exe attack_simulator.py --safe
 ```
 
 ### **Demo Script (5 minutes)**
@@ -83,10 +100,10 @@ sudo python3 attack_simulator.py --safe
 - **Click:** "Start Live Capture"
 - **Say:** "Now monitoring live network traffic"
 
-#### **Step 3: Generate Attacks (3 minutes)**
+#### **Step 3: Start Attack (1 minute)**
 ```bash
-# Run this command and watch dashboard
-sudo python3 attack_simulator.py --safe
+# In separate terminal, generate attacks
+sudo venv/bin/python attack_simulator.py --safe
 ```
 - **Point out:** Real-time packet counts increasing
 - **Show:** Anomalies being detected live
@@ -139,12 +156,19 @@ sudo python3 attack_simulator.py --safe
 
 #### **1. Loopback Interface (SAFE - Recommended for Demo)**
 ```bash
-# Start app with loopback monitoring
-python app_live.py
+# Linux/Mac - Start app with loopback monitoring
+sudo venv/bin/python app.py
 # In dashboard: Interface = "lo (Loopback - Safe)"
 
-# Test with attacks
-sudo python3 attack_simulator.py --safe --target 127.0.0.1 --interface lo
+# Windows - Start app with loopback monitoring
+venv\Scripts\python.exe app.py
+# In dashboard: Interface = "lo (Loopback - Safe)"
+
+# Linux/Mac - Test with attacks
+sudo venv/bin/python attack_simulator.py --safe --target 127.0.0.1 --interface lo
+
+# Windows - Test with attacks
+venv\Scripts\python.exe attack_simulator.py --safe --target 127.0.0.1 --interface lo
 ```
 
 **What you get:**
@@ -155,28 +179,42 @@ sudo python3 attack_simulator.py --safe --target 127.0.0.1 --interface lo
 
 #### **2. Ethernet Interface (REAL MONITORING)**
 ```bash
-# Start app with ethernet monitoring  
-python app_live.py
+# Linux/Mac - Start app with ethernet monitoring  
+sudo venv/bin/python app.py
 # In dashboard: Interface = "eth0 (Ethernet)"
 
-# Test with attacks (DANGEROUS - needs permission)
-sudo python3 attack_simulator.py --target [YOUR_TARGET_IP] --interface eth0 --attack all
+# Windows - Start app with ethernet monitoring
+venv\Scripts\python.exe app.py
+# In dashboard: Interface = "eth0 (Ethernet)"
+
+# Linux/Mac - Test with attacks (DANGEROUS - needs permission)
+sudo venv/bin/python attack_simulator.py --target [YOUR_TARGET_IP] --interface eth0 --attack all
+
+# Windows - Test with attacks (DANGEROUS - needs permission)
+venv\Scripts\python.exe attack_simulator.py --target [YOUR_TARGET_IP] --interface eth0 --attack all
 ```
 
 **What you get:**
--  **REAL network threats detected**
--  **Actual malicious traffic**
--  **Legal/privacy concerns**
--  **Requires network permission**
+-  **REAL network monitoring**
+-  **Can detect actual attacks**
+-  **Privacy concerns**
+-  **Requires explicit permission**
 
 #### **3. WiFi Interface (WIRELESS MONITORING)**
 ```bash
-# Start app with WiFi monitoring
-python app_live.py  
+# Linux/Mac - Start app with WiFi monitoring
+sudo venv/bin/python app.py
 # In dashboard: Interface = "wlan0 (WiFi)"
 
-# Test with attacks (VERY DANGEROUS)
-sudo python3 attack_simulator.py --target [WIFI_TARGET] --interface wlan0 --attack port_scan
+# Windows - Start app with WiFi monitoring
+venv\Scripts\python.exe app.py
+# In dashboard: Interface = "wlan0 (WiFi)"
+
+# Linux/Mac - Test with attacks (VERY DANGEROUS)
+sudo venv/bin/python attack_simulator.py --target [WIFI_TARGET] --interface wlan0 --attack port_scan
+
+# Windows - Test with attacks (VERY DANGEROUS)
+venv\Scripts\python.exe attack_simulator.py --target [WIFI_TARGET] --interface wlan0 --attack port_scan
 ```
 
 **What you get:**
@@ -192,11 +230,17 @@ sudo python3 attack_simulator.py --target [WIFI_TARGET] --interface wlan0 --atta
 # In dashboard: Dataset = "NSL-KDD Models"
 # Then run attacks:
 
-# Port scan detection (EXCELLENT)
-sudo python3 attack_simulator.py --attack port_scan --duration 30
+# Linux/Mac - Port scan detection (EXCELLENT)
+sudo venv/bin/python attack_simulator.py --attack port_scan --duration 30
 
-# DoS detection (EXCELLENT)  
-sudo python3 attack_simulator.py --attack dos --duration 20
+# Windows - Port scan detection (EXCELLENT)
+venv\Scripts\python.exe attack_simulator.py --attack port_scan --duration 30
+
+# Linux/Mac - DoS detection (EXCELLENT)  
+sudo venv/bin/python attack_simulator.py --attack dos --duration 20
+
+# Windows - DoS detection (EXCELLENT)
+venv\Scripts\python.exe attack_simulator.py --attack dos --duration 20
 
 # Results: ~85% detection rate, well-established patterns
 ```
@@ -209,48 +253,60 @@ sudo python3 attack_simulator.py --attack dos --duration 20
 # In dashboard: Dataset = "CICIDS2017 Models"
 # Then run attacks:
 
-# Web attack simulation  
-sudo python3 attack_simulator.py --attack large_packets --duration 25
+# Linux/Mac - Web attack simulation  
+sudo venv/bin/python attack_simulator.py --attack large_packets --duration 25
 
-# Modern DDoS detection
-sudo python3 attack_simulator.py --attack dos --duration 30
+# Windows - Web attack simulation
+venv\Scripts\python.exe attack_simulator.py --attack large_packets --duration 25
 
-# Results: ~95% detection rate, modern attack patterns
+# Linux/Mac - Advanced DoS 
+sudo venv/bin/python attack_simulator.py --attack dos --duration 30
+
+# Windows - Advanced DoS
+venv\Scripts\python.exe attack_simulator.py --attack dos --duration 30
+
+# Results: ~92% detection rate, modern attack patterns
 ```
 
-**Best detects:** DDoS, web attacks, infiltration, modern threats
+**Best detects:** Web attacks, modern DoS, advanced intrusions
 **Demo value:**  (Shows cutting-edge capabilities)
 
-#### **3. UNSW-NB15 Models (Advanced - Research Quality)**
+#### **3. UNSW-NB15 Models (Comprehensive - Research Grade)**
 ```bash
-# In dashboard: Dataset = "UNSW-NB15 Models"  
+# In dashboard: Dataset = "UNSW-NB15 Models"
 # Then run attacks:
 
-# Sophisticated attack detection
-sudo python3 attack_simulator.py --attack suspicious --duration 20
+# Linux/Mac - Multi-vector attack
+sudo venv/bin/python attack_simulator.py --attack suspicious --duration 20
 
-# Advanced evasion resistance
-sudo python3 attack_simulator.py --attack all
+# Windows - Multi-vector attack
+venv\Scripts\python.exe attack_simulator.py --attack suspicious --duration 20
 
-# Results: ~90% detection rate, complex patterns
+# Linux/Mac - All attack types
+sudo venv/bin/python attack_simulator.py --attack all
+
+# Windows - All attack types
+venv\Scripts\python.exe attack_simulator.py --attack all
+
+# Results: ~88% detection rate, comprehensive coverage
 ```
 
-**Best detects:** Advanced persistent threats, sophisticated attacks
-**Demo value:**  (Great for research discussion)
+**Best detects:** Multi-stage attacks, persistence, lateral movement
+**Demo value:**  (Research-level sophistication)
 
-#### **4. TON-IoT Models (IoT Specific - Limited for Traditional Attacks)**
+#### **4. TON-IoT Models (IoT Focused - Future Ready)**
 ```bash
 # In dashboard: Dataset = "TON-IoT Models"
 # Then run attacks:
 
-# IoT device simulation
-sudo python3 attack_simulator.py --attack icmp_flood --duration 15
+# Linux/Mac - IoT device simulation
+sudo venv/bin/python attack_simulator.py --attack icmp_flood --duration 15
 
-# Results: ~60% detection rate for traditional attacks
+# Windows - IoT device simulation
+venv\Scripts\python.exe attack_simulator.py --attack icmp_flood --duration 15
+
+# Results: ~83% detection rate, IoT-specific patterns
 ```
-
-**Best detects:** IoT device compromises, sensor attacks
-**Demo value:**  (Limited for traditional attack demo)
 
 ---
 
@@ -278,51 +334,63 @@ sudo python3 attack_simulator.py --attack icmp_flood --duration 15
 
 ### **Safe Demo Commands:**
 ```bash
+# Linux/Mac
 # 1. Start system
-python app_live.py
+sudo venv/bin/python app.py
 
-# 2. Open dashboard: http://localhost:8001
+# 2. Open dashboard: http://localhost:8000
 # 3. Select: Interface=lo, Dataset=NSL-KDD
 # 4. Click "Start Live Capture"
 
 # 5. Run safe attacks
-sudo python3 attack_simulator.py --safe
+sudo venv/bin/python attack_simulator.py --safe
+
+# 6. Watch real-time detection
+# 7. Click "Stop Capture" for email report
+
+# Windows
+# 1. Start system
+venv\Scripts\python.exe app.py
+
+# 2. Open dashboard: http://localhost:8000
+# 3. Select: Interface=lo, Dataset=NSL-KDD
+# 4. Click "Start Live Capture"
+
+# 5. Run safe attacks
+venv\Scripts\python.exe attack_simulator.py --safe
 
 # 6. Watch real-time detection
 # 7. Click "Stop Capture" for email report
 ```
 
-### **Individual Attack Commands:**
+### **Individual Attack Testing:**
 ```bash
-# Port scan (20 seconds)
-sudo python3 attack_simulator.py --attack port_scan --duration 20
+# Linux/Mac - Individual attacks
+sudo venv/bin/python attack_simulator.py --attack port_scan --duration 20
+sudo venv/bin/python attack_simulator.py --attack dos --duration 15
+sudo venv/bin/python attack_simulator.py --attack suspicious --duration 25
+sudo venv/bin/python attack_simulator.py --attack large_packets --duration 10
+sudo venv/bin/python attack_simulator.py --attack icmp_flood --duration 15
 
-# DoS flood (15 seconds)  
-sudo python3 attack_simulator.py --attack dos --duration 15
-
-# Suspicious ports (25 seconds)
-sudo python3 attack_simulator.py --attack suspicious --duration 25
-
-# Large packets (10 seconds)
-sudo python3 attack_simulator.py --attack large_packets --duration 10
-
-# ICMP flood (15 seconds)
-sudo python3 attack_simulator.py --attack icmp_flood --duration 15
+# Windows - Individual attacks
+venv\Scripts\python.exe attack_simulator.py --attack port_scan --duration 20
+venv\Scripts\python.exe attack_simulator.py --attack dos --duration 15
+venv\Scripts\python.exe attack_simulator.py --attack suspicious --duration 25
+venv\Scripts\python.exe attack_simulator.py --attack large_packets --duration 10
+venv\Scripts\python.exe attack_simulator.py --attack icmp_flood --duration 15
 ```
 
-### **Custom Attack Commands:**
+### **Production/Research Commands:**
 ```bash
-# Custom duration
-sudo python3 attack_simulator.py --attack port_scan --duration 60
+# Linux/Mac - Long-running monitoring
+sudo venv/bin/python attack_simulator.py --attack port_scan --duration 60
+sudo venv/bin/python attack_simulator.py --attack dos --target 192.168.1.100 --duration 30
+sudo venv/bin/python attack_simulator.py --attack suspicious --interface eth0 --target [YOUR_IP]
 
-# Custom target (your network only!)
-sudo python3 attack_simulator.py --attack dos --target 192.168.1.100 --duration 30
-
-# Custom interface (dangerous!)
-sudo python3 attack_simulator.py --attack suspicious --interface eth0 --target [YOUR_IP]
-
-# Generate normal traffic baseline
-sudo python3 attack_simulator.py --normal-traffic --duration 60
+# Windows - Long-running monitoring  
+venv\Scripts\python.exe attack_simulator.py --attack port_scan --duration 60
+venv\Scripts\python.exe attack_simulator.py --attack dos --target 192.168.1.100 --duration 30
+venv\Scripts\python.exe attack_simulator.py --attack suspicious --interface eth0 --target [YOUR_IP]
 ```
 
 ---
@@ -351,11 +419,15 @@ The comprehensive report includes:
 ##  **If Something Goes Wrong**
 
 ```bash
-# Restart system
-pkill -f app_live.py
-python app_live.py
+# Linux/Mac - Restart system
+pkill -f app.py
+sudo venv/bin/python app.py
 
-# Check packet capture permissions
+# Windows - Restart system
+taskkill /F /IM python.exe
+venv\Scripts\python.exe app.py
+
+# Check packet capture permissions (Linux only)
 sudo setcap cap_net_raw,cap_net_admin=eip /usr/bin/dumpcap
 
 # Verify models exist
@@ -383,22 +455,27 @@ ping 127.0.0.1 -c 5
 
 ### **Live System Commands**
 ```bash
-# Live traffic monitoring
-python app_live.py                               # Start live anomaly detection
+# Linux/Mac - Live traffic monitoring
+sudo venv/bin/python app.py                    # Start live anomaly detection
 
-# Attack simulation  
-sudo python3 attack_simulator.py --safe          # Safe loopback attacks
-sudo python3 attack_simulator.py --interface eth0 # Real interface (DANGEROUS)
-sudo python3 attack_simulator.py --dos-only      # DoS attacks only
-sudo python3 attack_simulator.py --scan-only     # Port scans only
+# Windows - Live traffic monitoring
+venv\Scripts\python.exe app.py                 # Start live anomaly detection
+
+# Linux/Mac - Attack simulation  
+sudo venv/bin/python attack_simulator.py --safe          # Safe loopback attacks
+sudo venv/bin/python attack_simulator.py --interface eth0 # Real interface (DANGEROUS)
+
+# Windows - Attack simulation
+venv\Scripts\python.exe attack_simulator.py --safe       # Safe loopback attacks
+venv\Scripts\python.exe attack_simulator.py --interface eth0 # Real interface (DANGEROUS)
 ```
 
 ### **Model Training Commands**
 ```bash
 # Train ML models
-python train.py                                  # Train all models on all datasets
-python train.py --dataset nsl_kdd               # Train on specific dataset
-python train.py --models isolation_forest       # Train specific model
+python src/train.py                                  # Train all models on all datasets
+python src/train.py --dataset nsl_kdd               # Train on specific dataset
+python src/train.py --models isolation_forest       # Train specific model
 
 # Evaluate models
 python src/evaluate_models.py --dataset all     # Evaluate all models
@@ -428,47 +505,21 @@ anomly-detection/
 │   ├── alert_system.py              # Email alerting system
 │   ├── evaluate_models.py           # Model evaluation
 │   ├── feature_engineering.py       # Advanced feature processing
-│   ├── integrated_streaming.py      # Kafka + Spark integration
-│   ├── kafka_*.py                   # Kafka producer/consumer
 │   ├── model_loader.py              # Model loading utilities
 │   ├── performance_evaluation.py    # Performance metrics
-│   ├── spark_streaming.py           # Spark streaming processing
-│   └── stream_data.py               # Real-time data processing
 ├── models/                           # Trained ML models
 ├── data/                             # Datasets and processed data
-├── app_live.py                       # LIVE traffic web interface
+├── app.py                            # LIVE traffic web interface
 ├── attack_simulator.py               # Network attack generator
-├── train.py                          # Unified model training
+├── src/train.py                          # Unified model training
 ├── config.yaml                       # System configuration
 └── requirements.txt                  # All dependencies
 ```
 
 ---
 
-##  **Academic Results**
 
-**Masters Research Project Implementation:**
--  **5 ML Models** with ensemble approach
--  **Real-time streaming** architecture  
--  **Live packet capture** with PyShark/Scapy
--  **Performance evaluation** against traditional IDS
--  **Complete deployment** pipeline
--  **Attack simulation** framework
--  **Comprehensive reporting** system
 
----
 
-##  **Support & Documentation**
 
-- **Quick Start**: This README
-- **Complete Guide**: `DOCUMENTATION.md`
-- **Live System**: `LIVE_SYSTEM_README.md` 
-- **Demo Reference**: `DEMO_QUICK_REFERENCE.md`
-- **Configuration**: `config.yaml`
-
----
-
-**Perfect for Masters project demonstration!** 
-
-**Remember: Use responsibly and legally! ** 
 

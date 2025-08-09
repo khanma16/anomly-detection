@@ -1,7 +1,7 @@
 ================================================================================
 MODEL EVALUATION REPORT - CICIDS2017
 ================================================================================
-Generated on: 2025-08-07 03:45:58
+Generated: 2025-08-09 09:07:16
 
 PERFORMANCE SUMMARY
 --------------------------------------------------
@@ -11,7 +11,7 @@ Isolation Forest     0.4318     0.2606     0.6315
 Random Forest        0.9999     0.9999     1.0000    
 Xgboost              0.9999     0.9999     1.0000    
 Kmeans               0.6869     0.6986     0.3294    
-Autoencoder          0.7018     0.7101     0.7999    
+Autoencoder          0.7020     0.7102     0.7937    
 
 ISOLATION FOREST DETAILED RESULTS
 --------------------------------------------------
@@ -29,8 +29,8 @@ False Negatives: 105671
 True Positives: 22345
 
 Performance:
-Prediction Time: 1.2452 seconds
-Predictions per Second: 179180.33
+Prediction Time: 1.5325 seconds
+Predictions per Second: 145583.35
 
 ==================================================
 
@@ -50,8 +50,8 @@ False Negatives: 15
 True Positives: 128001
 
 Performance:
-Prediction Time: 0.7629 seconds
-Predictions per Second: 292462.31
+Prediction Time: 0.4757 seconds
+Predictions per Second: 468990.41
 
 ==================================================
 
@@ -71,8 +71,8 @@ False Negatives: 21
 True Positives: 127995
 
 Performance:
-Prediction Time: 0.1607 seconds
-Predictions per Second: 1388746.01
+Prediction Time: 0.1677 seconds
+Predictions per Second: 1330636.73
 
 ==================================================
 
@@ -92,28 +92,28 @@ False Negatives: 47043
 True Positives: 80973
 
 Performance:
-Prediction Time: 0.1674 seconds
-Predictions per Second: 1333167.44
+Prediction Time: 0.1701 seconds
+Predictions per Second: 1311438.95
 
 ==================================================
 
 AUTOENCODER DETAILED RESULTS
 --------------------------------------------------
-Accuracy: 0.7018
-Precision: 0.8030
+Accuracy: 0.7020
+Precision: 0.8032
 Recall: 0.6365
-F1-Score: 0.7101
-ROC-AUC: 0.7999
-Average Precision: 0.7881
+F1-Score: 0.7102
+ROC-AUC: 0.7937
+Average Precision: 0.7851
 
 Confusion Matrix:
-True Negatives: 75101
-False Positives: 19995
+True Negatives: 75132
+False Positives: 19964
 False Negatives: 46533
 True Positives: 81483
 
 Performance:
-Prediction Time: 0.5157 seconds
-Predictions per Second: 432669.65
+Prediction Time: 0.5633 seconds
+Predictions per Second: 396096.41
 
 ==================================================

@@ -1,7 +1,7 @@
 ================================================================================
 MODEL EVALUATION REPORT - TON_IOT
 ================================================================================
-Generated on: 2025-08-07 03:46:07
+Generated: 2025-08-09 09:07:27
 
 PERFORMANCE SUMMARY
 --------------------------------------------------
@@ -29,8 +29,8 @@ False Negatives: 27510
 True Positives: 2177
 
 Performance:
-Prediction Time: 0.3036 seconds
-Predictions per Second: 125467.03
+Prediction Time: 0.4030 seconds
+Predictions per Second: 94520.79
 
 ==================================================
 
@@ -50,8 +50,8 @@ False Negatives: 0
 True Positives: 29687
 
 Performance:
-Prediction Time: 0.0928 seconds
-Predictions per Second: 410289.75
+Prediction Time: 0.2482 seconds
+Predictions per Second: 153454.47
 
 ==================================================
 
@@ -71,8 +71,8 @@ False Negatives: 0
 True Positives: 29687
 
 Performance:
-Prediction Time: 0.0216 seconds
-Predictions per Second: 1762295.11
+Prediction Time: 0.0963 seconds
+Predictions per Second: 395538.21
 
 ==================================================
 
@@ -92,8 +92,8 @@ False Negatives: 27736
 True Positives: 1951
 
 Performance:
-Prediction Time: 0.0249 seconds
-Predictions per Second: 1532416.57
+Prediction Time: 0.0405 seconds
+Predictions per Second: 940441.85
 
 ==================================================
 
@@ -113,7 +113,7 @@ False Negatives: 25939
 True Positives: 3748
 
 Performance:
-Prediction Time: 0.0398 seconds
-Predictions per Second: 958126.77
+Prediction Time: 0.1160 seconds
+Predictions per Second: 328332.47
 
 ==================================================
