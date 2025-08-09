@@ -289,10 +289,22 @@ class PerformanceEvaluator:
                                 for i in range(missing_features):
                                     X_processed[f"missing_feature_{i}"] = 0
 
-                    X_scaled = scaler.transform(X_processed)
-                    X_processed = pd.DataFrame(X_scaled, columns=X_processed.columns)
+                    # Convert to numpy array to avoid feature name warnings, then back to DataFrame
+                    X_values = X_processed.values
+                    X_scaled = scaler.transform(X_values)
+                    
+                    # Create DataFrame without feature names to avoid sklearn warnings
+                    X_processed = pd.DataFrame(X_scaled, index=X_processed.index)
+                    
                 except Exception as e:
                     logger.warning(f"Scaling failed, using raw features: {e}")
+                    # Ensure X_processed is still a DataFrame
+                    if not isinstance(X_processed, pd.DataFrame):
+                        X_processed = pd.DataFrame(X_processed)
+
+            # Final check - ensure X_processed is properly formatted
+            if not isinstance(X_processed, pd.DataFrame):
+                X_processed = pd.DataFrame(X_processed)
 
             return X_processed
 

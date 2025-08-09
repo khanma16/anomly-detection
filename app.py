@@ -2,9 +2,6 @@
 LIVE Traffic Anomaly Detection Web App
 =====================================
 
-WARNING: Use only on networks you own or have explicit permission to monitor.
-Unauthorized packet sniffing is illegal.
-
 This app performs REAL network packet capture and ML-based anomaly detection.
 """
 
@@ -12,7 +9,6 @@ import os
 import logging
 import threading
 import time
-import json
 import queue
 import smtplib
 import yaml
@@ -812,12 +808,7 @@ HTML_TEMPLATE = """
             </div>
         </div>
         
-        <div class="content">
-            <div class="warning-box">
-                <strong>LEGAL NOTICE:</strong> This system captures live network traffic. Ensure you have proper authorization before use.
-                Unauthorized packet sniffing may violate laws and organizational policies.
-            </div>
-            
+        <div class="content">            
             <!-- Real-time Stats -->
             <div class="stats-grid">
                 <div class="stat-card">
@@ -871,7 +862,6 @@ HTML_TEMPLATE = """
                 </select>
                 <p style="margin-top: 10px; color: #666; font-size: 0.9em;">
                     <strong>Safe Start:</strong> Use "lo" interface to capture local traffic safely.<br>
-                    <strong>Email Reports:</strong> Individual anomaly emails are disabled. Comprehensive report sent when stopping capture or manually.
                 </p>
             </div>
             
