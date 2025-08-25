@@ -13,3 +13,4 @@ DOCUMENTATION.md
 *.csv
 *.jsonl
 *.jsonl.gz
+report/

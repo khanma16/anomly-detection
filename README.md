@@ -9,7 +9,7 @@ Real-time network security using machine learning with **LIVE packet capture**, 
 ### **1. Setup Environment**
 ```bash
 # Clone and setup
-git clone <repository>
+git clone git@github.com:khanma16/anomly-detection.git
 cd anomly-detection
 python -m venv venv
 
@@ -24,21 +24,14 @@ python src/train.py --dataset all
 
 ### **3. Run Live System**
 ```bash
-# Linux/Mac
-sudo venv/bin/python app.py
-
-# Windows (Run as Administrator)
+# Run as Administrator
 venv\Scripts\python.exe app.py
-
-# Open: http://localhost:8000
 ```
 
 ### **4. Generate Test Attacks**
 ```bash
-# Linux/Mac (separate terminal)
-sudo venv/bin/python attack_simulator.py --safe
 
-# Windows (separate terminal)
+# separate terminal
 venv\Scripts\python.exe attack_simulator.py --safe
 ```
 
